@@ -6,13 +6,14 @@ public class MoodAnalyzer {
     private String message;
 
     public MoodAnalyzer() {
+        message = "default";
     }
 
     public MoodAnalyzer(String message) {
         this.message = message;
     }
 
-    public String analyseMood() throws MoodAnalysisException {
+    public String analyseMood() {
         try {
             if (message.isEmpty())
                 throw new MoodAnalysisException("Entered field cannot be empty.", MoodAnalysisException.ExceptionType.EXCEPTION_EMPTY);
@@ -23,5 +24,11 @@ public class MoodAnalyzer {
         } catch (NullPointerException e) {
             throw new MoodAnalysisException("Please enter a proper mood.", MoodAnalysisException.ExceptionType.EXCEPTION_NULL);
         }
+    }
+
+    public boolean equals(Object another) {
+        if (this.message.equals(((MoodAnalyzer) another).message))
+            return true;
+        return false;
     }
 }
