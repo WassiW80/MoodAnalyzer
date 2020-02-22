@@ -85,16 +85,40 @@ public class MoodAnalyzerTest {
 
     @Test
     public void givenHappyMessageUsingReflector_WhenProper_ShouldReturnHappy() {
-        String mood = MoodAnalyzerFactory.invokeMethod("com.moodanalyzer.MoodAnalyzer", "analseMood", String.class);
-        Assert.assertEquals("HAPPY",mood);
+        String mood = MoodAnalyzerFactory.invokeMethod("com.moodanalyzer.MoodAnalyzer", "analyseMood", String.class, "happy");
+        Assert.assertEquals("HAPPY", mood);
     }
 
     @Test
     public void givenHappyMessageUsingReflector_WhenImproper_ShouldThrowException() {
         try {
-            MoodAnalyzerFactory.invokeMethod("com.moodanalyzer.MoodAnalyzer","analyse",String.class);
-        }catch (MoodAnalysisException e){
-            Assert.assertEquals(MoodAnalysisException.ExceptionType.EXCEPTION_NO_SUCH_METHOD,e.type);
+            MoodAnalyzerFactory.invokeMethod("com.moodanalyzer.MoodAnalyzer", "analyse", String.class, "happy");
+        } catch (MoodAnalysisException e) {
+            Assert.assertEquals(MoodAnalysisException.ExceptionType.EXCEPTION_NO_SUCH_METHOD, e.type);
+        }
+    }
+
+    @Test
+    public void givenFieldNameUsingReflector_WhenProper_ShouldSetMoodDynamically() {
+        String mood = MoodAnalyzerFactory.settingFieldValue("com.moodanalyzer.MoodAnalyzer", "message", "I am in happy mood");
+        Assert.assertEquals("HAPPY", mood);
+    }
+
+    @Test
+    public void givenFieldNameUsingReflector_WhenImproper_ShouldThrowException() {
+        try {
+            MoodAnalyzerFactory.settingFieldValue("com.moodanalyzer.MoodAnalyzer", "mess", "I am in happy mood");
+        } catch (MoodAnalysisException e) {
+            Assert.assertEquals(MoodAnalysisException.ExceptionType.EXCEPTION_NO_SUCH_FIELD, e.type);
+        }
+    }
+
+    @Test
+    public void givenFieldNameUsingReflector_WhenNull_ShouldThrowException() {
+        try {
+            MoodAnalyzerFactory.settingFieldValue("com.moodanalyzer.MoodAnalyzer", "message", null);
+        } catch (MoodAnalysisException e) {
+            Assert.assertEquals(MoodAnalysisException.ExceptionType.EXCEPTION_INVOCATION_ISSUE, e.type);
         }
     }
 }

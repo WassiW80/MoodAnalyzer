@@ -13,8 +13,8 @@ public class MoodAnalyzer {
         this.message = message;
     }
 
-    private String analseMood(String message){
-        this.message=message;
+    private String analyseMood(String message) {
+        this.message = message;
         return analyseMood();
     }
 
